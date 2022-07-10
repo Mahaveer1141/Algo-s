@@ -1,0 +1,7 @@
+problem link:- https://leetcode.com/problems/next-permutation/
+approach:-
+
+1. a[i] < a[i+1] -> ind 
+2. a[ind2] > a[ind1]
+swap(a[ind1], a[ind2]);
+reverse(ind1+1 -> last);
