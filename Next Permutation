@@ -5,3 +5,31 @@ approach:-
 2. a[ind2] > a[ind1]
 swap(a[ind1], a[ind2]);
 reverse(ind1+1 -> last);
+
+code:-
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int i = n-1;
+        // finding peak element from behind
+        for (; i > 0; i--) {
+            if (nums[i] > nums[i-1])
+                break;
+        }
+        int ind = i;
+        if (ind == 0) {
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+        // finding element which is just greater than ind-1
+        // from behind
+        for (i = n-1; i >=0; i--) {
+            if (nums[ind-1] < nums[i]) {
+                swap(nums[ind-1], nums[i]);
+                break;
+            }
+        }
+        reverse(nums.begin()+ind, nums.end());
+    }
+};
