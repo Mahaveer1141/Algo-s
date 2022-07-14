@@ -1,0 +1,5 @@
+https://leetcode.com/problems/rotate-image/
+
+approach:- 
+transpose the matrix
+make swap of columns
