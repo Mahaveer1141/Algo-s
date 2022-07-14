@@ -1,0 +1,31 @@
+https://leetcode.com/problems/find-the-duplicate-number/
+
+Approach:-
+make two pointer 
+fast and slow
+if fast and slow are same then
+there is cycle and we checked that it contain a duplicate number.
+after that distance from begining to slow/fast would be same for extra number, means
+after some x travel from begining and slow trace back to starting of cycle
+thus our answer.
+so we travese untill slow and begining ptr not equal.
+
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow = nums[0], fast = nums[0];
+        while (1) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            if (slow == fast)
+                break;
+        }
+        int ptr = nums[0];
+        while (ptr != slow) {
+            ptr = nums[ptr];
+            slow = nums[slow];
+        }
+        return slow;
+    }
+};
