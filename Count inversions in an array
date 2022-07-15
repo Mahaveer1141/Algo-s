@@ -1,0 +1,9 @@
+https://www.codingninjas.com/codestudio/problems/615?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website
+
+Approach:-
+
+apply merge sort
+for every right element count element which are greater than it in left side of subtree
+this count is equal to all the element in left side after first greater element
+do this for all subtree in merge sort tree.
+at end sum of all inversion of subtree is total inversion count.
