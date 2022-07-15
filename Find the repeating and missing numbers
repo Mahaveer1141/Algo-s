@@ -1,0 +1,27 @@
+https://www.interviewbit.com/problems/repeat-and-missing-number-array/
+
+Article:- https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/
+
+
+Approach1:-
+calculate sum of number and sum of squares of number
+subtract it from given array's sum and sqaure sum;
+
+let x be repeating number and y be missing number.
+after subtracting we have
+x^2 - y^2 and
+x - y
+
+we can calculate using maths now.
+
+Approach2:-
+calculate xor of 1 to n and array elements.
+let x be repeating number and y be missing number.
+we will have 
+x xor y.
+
+now check for any set bit, set bit means either x is 0 and y is 1 or vice versa.
+
+make two set which have set bit as 1 and one set with set bit as 0
+after that xor them with array element and 1 to n.
+x and y would be found in any order.
