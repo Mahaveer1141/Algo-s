@@ -1,0 +1,66 @@
+https://leetcode.com/problems/majority-element-ii/
+
+Approach:-
+In this we do same as previous one.'
+here n1 and n2 are two most occured elements.
+At every point
+if any two of these number is incremented then we do that only and move to next iteration
+we check any of two number can be changed we do that only and move to next iteration
+we current doesn't satisfy above two condition then current number is different from n1 and n2 and we decrement the count of both.
+this works because we some number is greater than n/3 times then for those greater n/3 iteration it will only increase.
+and after that for every other number in n2 it will not decrease and decrease only if both n1 and n2 does not match.
+at last we check if both of n1 and n2 are greater than n/3 or not as that can be a case where one of them is second most occuring but
+not greater than n/3.
+
+so 
+
+n/3+1
+remaining 2n/3 - 1
+for 2n/3 - 1 one operation would only change them it takes n/3-1 operation so 
+remaining are n/3 operation and only in these operation it will decrease.
+n/3+1 > n/3 so it will persist.
+
+in case of both n1 and n2 greater than 3
+n / 3 + 1 and n/3+1
+so remaining operation are
+n/3 - 2 so it can't make both of there count to zero.
+
+
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int n = nums.size();
+        int n1 = -1, n2 = -1, c1 = 0, c2 = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == n1)
+                c1++;
+            else if (nums[i] == n2)
+                c2++;
+            else if (c1 == 0) {
+                n1 = nums[i];
+                c1 = 1;
+            }
+            else if (c2 == 0) {
+                n2 = nums[i];
+                c2 = 1;
+            }
+            else {
+                c1--;
+                c2--;
+            }
+        }
+        int cnt1 = 0, cnt2 = 0;
+        for (int i : nums) {
+            if (i == n1)
+                cnt++;
+            if (i == n2)
+                cnt2++;
+        }
+        vector<int> ans;
+        if (cnt1 > n/3)
+            ans.push_back(n1);
+        if (cnt2 > n/3)
+            ans.push_back(n2);
+        return ans;
+    }
+};
