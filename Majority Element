@@ -1,0 +1,23 @@
+https://leetcode.com/problems/majority-element/
+
+Approach:-
+In this we are changing number when it count is zero means number is changed when count of other element is greater than current element
+but if answer has count greater than n/2 then in the end it would remain as it's count is greater than all other number count.
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int n = nums.size();
+        int ans = -1, count = 0;
+        for (int i = 0; i < n; i++) {
+            if (count == 0) {
+                ans = nums[i];
+            }
+            if (nums[i] == ans)
+                count++;
+            else
+                count--;
+        }
+        return ans;
+    }
+};
