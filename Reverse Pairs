@@ -1,0 +1,83 @@
+https://leetcode.com/problems/reverse-pairs/
+
+Approach:-
+We will do merge sort and check for pairs where
+a[i] > 2*b[j]
+where i is left subarray and j is right subarray
+but unlike count inversion problem we check the condition in normal merge process becuase it will increment it when only a[i] > b[j]
+but in this we increment j here it will not check for correct answer so we have to create a merge process with this condition.
+
+class Solution {
+public:
+    int merge(vector<int> &nums, int l, int mid, int r) {
+        int s1 = mid - l + 1, s2 = r - mid;
+        vector<int> a(s1), b(s2);
+        for (int i = 0; i < s1; i++)
+            a[i] = nums[l + i];
+        for (int i = 0; i < s2; i++)
+            b[i] = nums[mid+1 + i];
+        int in_count = 0;
+        int i = 0, j = 0;
+        while (i < s1 || j < s2) {
+            if (i == s1) {
+                if ((long long)a[i-1] > (long long)2*b[j])
+                    in_count++;
+                j++;
+                continue;
+            }
+            if (j == s2) {
+                i++;
+                continue;
+            }
+            if ((long long)a[i] > (long long)2*b[j]) {
+                j++;
+                in_count += s1 - i;
+            }
+            else {
+                i++;
+            }
+        }
+        
+        i = 0; j = 0;
+        while (i < s1 && j < s2) {
+            if (a[i] <= b[j]) {
+                nums[l] = a[i];
+                i++;
+            }
+            else {
+                nums[l] = b[j];
+                j++;
+            }
+            l++;
+        }
+        while (i < s1) {
+            nums[l] = a[i];
+            i++;
+            l++;
+        }
+        while (j < s2) {
+            nums[l] = b[j];
+            j++;
+            l++;
+        }
+
+        return in_count;
+    }
+
+    int mergeSort(vector<int> &nums, int l, int r) {
+        int in_count = 0;
+        if (l >= r)
+            return in_count;
+        int mid = l + (r - l) / 2;
+        in_count += mergeSort(nums, l, mid);
+        in_count += mergeSort(nums, mid+1, r);
+        in_count += merge(nums, l, mid, r);
+        return in_count;
+    }
+
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size();
+        int ans = mergeSort(nums, 0, n-1);
+        return ans;
+    }
+};
