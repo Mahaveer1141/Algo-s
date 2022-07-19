@@ -1,0 +1,44 @@
+https://leetcode.com/problems/4sum/
+
+Approach:-
+Sort the array (so that we can apply two pointer approach latter)
+apply two loops for two elements in 4 element array
+after that apply two sum problem with remaningn sum as target
+approach include:-
+a. hash map -> require set for removing duplicates
+b. two pointer -> require sorting and as well as while loop for removing duplicates.
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        if (nums.size() < 4)
+            return ans;
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j < n; j++) {
+                long long val = nums[i] + nums[j];
+                int st = j+1, end = n-1;
+                while (end > st) {
+                    long long sum = nums[st] + nums[end];
+                    long long t2 = target - val;
+                    if (t2 == sum) {
+                        vector<int> temp = {nums[i], nums[j], nums[st], nums[end]};
+                        ans.push_back(temp);
+                        while (end > st && temp[2] == nums[st]) st++;
+                        while (end > st && temp[3] == nums[end]) end--;
+                    }
+                    else if (t2 < sum)
+                        end--;
+                    else
+                        st++;
+                }
+                while (j+1 < n && nums[j] == nums[j+1]) j++;
+            }
+            while (i+1 < n && nums[i] == nums[i+1]) i++;
+        }
+        return ans;
+    }
+
+};
