@@ -1,0 +1,28 @@
+https://leetcode.com/problems/longest-consecutive-sequence/
+
+Approach:-
+Use map for constant loopup time.
+check if currentNumber -1 is present in map or not if yes then move to next number
+else
+it means it is start of new streak then use a loop what is consecutive maximum number that is present in this map.
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map<int, int> m;
+        for (int i : nums)
+            m[i] = 1;
+        int ans = 0;
+        for (int i : nums) {
+            int cr = 0, cn = i;
+            if (m[i-1])
+                continue;
+            while (m[cn]) {
+                cr++;
+                cn++;
+            }
+            ans = max(ans, cr);
+        }
+        return ans;
+    }
+};
