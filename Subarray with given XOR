@@ -1,0 +1,29 @@
+https://www.interviewbit.com/problems/subarray-with-given-xor/
+
+Approach:-
+we use prefix xor to find subarray with xor equal to B starting with index 0
+for other subarray we can calculate there xor with this
+let x be from starting index 0, and y be some index so upto point t, we know xor of x to t,
+and for xor of y to t we can simply
+pref[t] ^ pref[y] this will give xor of y to t
+so we can use this to find all the array with given xor value.
+if current xor == B then add the answer
+else check if previously there is value that has value of x^B
+and add all of to answer
+and update the map m for every x.
+
+int Solution::solve(vector<int> &A, int B) {
+    int n = A.size();
+    unordered_map<int, int> m;
+    int x = 0, ans = 0;
+    for (int i = 0; i < n; i++) {
+        x ^= A[i];
+        if (x == B)
+            ans++;
+        if (m[x^B])
+            ans += m[x^B];
+        m[x]++;
+    }
+    return ans;
+}
+
