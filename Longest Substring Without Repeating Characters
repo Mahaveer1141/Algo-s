@@ -1,0 +1,25 @@
+https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+Approach:-
+when we count a character with frequence more than 1 just go in backward untill its frequency go to 1, 
+decrease frequency of all the variable untill that point also, use j variable for this.
+answer would be difference in current i and j take max of it.
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        unordered_map<char, int> m;
+        int ans = 0;
+        for (int i = 0, j = 0; i < n; i++) {
+            m[s[i]]++;
+            while (m[s[i]] > 1) {
+                m[s[j]]--;
+                j++;
+            }
+            ans = max(ans, i-j+1);
+        }
+        return ans;
+    }
+};
+
