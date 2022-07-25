@@ -1,0 +1,27 @@
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+Approach:-
+Travese while a and b not match or if they don't become null at same time
+if they become become null at same time means no cycle because if they are null in sync that means no
+cycle should be present before.
+else if one of it become null first then reset it to head;
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *a = headA, *b = headB;
+        while (a || b) {
+            if (a == nullptr)
+                a = headA;
+            if (b == nullptr) {
+                b = headB;
+            }
+            if (a == b)
+                return a;
+            a = a->next;
+            b = b->next;
+            
+        }
+        return NULL;
+    }
+};
