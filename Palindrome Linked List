@@ -1,0 +1,39 @@
+https://leetcode.com/problems/palindrome-linked-list/
+
+Approahc:-
+use fast and slow pointer to find middle of linked list
+rotate from the middle list and check simply if palindrome or not.
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if (!head->next)
+            return 1;
+        ListNode *slow = head, *fast = head;
+        while (fast) {
+            if (fast->next)
+                fast = fast->next->next;
+            else
+                fast = fast->next;
+            slow = slow->next;
+        }
+        ListNode *temp = slow, *prev = NULL;
+        while (temp->next) {
+            ListNode *nxt = temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp = nxt;
+        }
+        temp->next = prev;
+        slow = temp;
+        ListNode *check = head;
+        while (slow) {
+            if (slow->val != check->val)
+                return 0;
+            slow = slow->next;
+            check = check->next;
+        }
+        
+        return 1;
+    }
+};
