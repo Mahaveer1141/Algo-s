@@ -1,0 +1,46 @@
+https://practice.geeksforgeeks.org/problems/flattening-a-linked-list/2
+
+Approach:-
+merge the two arrays from bottom side.
+use recursion such that first last two arrays will be merged and then last second arrays will be merged so on
+and in the end first and second array will be merged
+and return the root;
+
+Node* mergeList(Node* a, Node *b)
+{
+    Node *temp = new Node(0);
+    Node *r = temp;
+    while (a && b) {
+        if (a->data > b->data) {
+            temp->bottom = b;
+            temp = temp->bottom;
+            b = b->bottom;
+        }
+        else {
+            temp->bottom = a;
+            temp = temp->bottom;
+            a = a->bottom;
+        }
+    }
+    if (a) {
+        temp->bottom = a;
+        a = a->next;
+        temp = temp->next;
+    }
+    if (b) {
+        temp->bottom = b;
+        b = b->next;
+        temp = temp->next;
+    }
+    return r->bottom;
+}    
+    
+Node *flatten(Node *root)
+{
+    if (root && root->next) {
+        root->next = flatten(root->next);
+        root = mergeList(root, root->next);
+    }
+
+    return root;
+}
