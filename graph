@@ -1,0 +1,86 @@
+travesal algo :-
+  - dfs
+  - bfs
+
+cycle detection :-
+  undirected graph
+    - using dfs
+      if a node is already visited and is not connected to current node then cycle is there.
+  
+    - using bfs
+      if a node is already visited and is not connected to current node then cycle is there.
+  
+  directed graph
+    - using dfs
+      1->2->4
+         |  |
+         v  v
+         3<-5
+      this graph don't have an cycle but a simple algorithm may find cycle in this graph, so
+      we use dfs inside dfs
+      means we have two visited array and there
+      is cycle if and only there is node which is visited in both arrays.
+      in second array if we complete the dfs for any node and don't find any cycle we will reset it value to false again.
+
+    - using bfs
+      use kahn's toplogical sort if bfs while loop run more than N(number of vertices) then there is cycle.
+
+shortest path:-
+  - using bfs
+    * don't work for weighted graph 
+    make distance array(dist) give source node of distance 0 and increase distance for every level it traverse by one
+    and take min of all distance for a node.
+
+  - using dijikstra algo
+    * don't work for negative weighted graph
+    make a dist array and priority queue(min heap).
+    except for source node give every node value of infinity.
+    now push all the edge of source node into prioriy queue.
+    take the top of pq which is min edge weight and travese its neighbour and use this formula on them
+    dist[v] = min(dist[v], dist[u] + weight to reach v from u)
+    do this untill queue is empty
+    and push this new weight in queue if it is lower.
+
+  - using bellman ford algo
+    * don't work for negative cycle graph
+    use a vector of struct Node for storing all the edges.
+    make a dist array with source node value zero and all other to infinity
+    apply a relaxation process n-1(n = number of veritces) times
+    traverse every edge in graph and use this formula
+    dist[v] = min(dist[u] + weight of u->v, dist[v]) only if dist[u] != infinity
+
+topological sort:-
+  * only works for DAG
+  - using dfs
+    we will do a dfs travesal and when a dfs finish for a node we will add it in a stack.
+    in the end stack will have topological sort of all the vertices.
+
+  - using bfs (kahn algo)
+    make a indegree array means for every vertices it will store how many edges are directed to that vertex.
+    take a queue and insert all the vertex with indegree of zero
+    pop from queue and push it in array, this element is in topo sort order and
+    traverse all the vertex of that front element of queue and decrement there indegree by one
+    if any element has indegree of 0 then push it in queue. do it untill queue is empty.
+
+minimum spanning tree:-
+  - prims algo
+    make 3 array key, vis, parent.
+    key will contain min wwight to take current vertex in mst. except for start node, give every other vertex value of infinity and start node to zero. 
+    vis will have if that vertex already included in mst or not.
+    parent will have parent or to which vertex, current vertex is attached, give source node its value and all the other node value of -1.
+    take the minn weight vertex from key and travese through all of it's unvisited neighbours and use this formula on them
+    key[v] = min(key[v], key[u] + weight of u->v)
+    also if key[v] changes than update it's parent
+    do this for n-1 times and in the end
+    key will cost of mst for vetex and it's sum is min cost mst.
+    parent will have which node is connected to which one.
+
+  - kruskal algo
+    use a vector of struct Node for storing all the edges.
+    also use a disjoint set/union find for checking cycle in mst.
+    sort the array of edges by weight.
+    take the smallest edge in array.
+    check if u and v are already a component means in union find they belong to same parent.
+    if yes then it will cause a cycle and dont't take that edge
+    else push that edge with its weight, u, v in mst array which contain final answer and all the edges, weights, u, v and make union of u and v.
+    do this for all edges.
