@@ -1,0 +1,56 @@
+https://leetcode.com/problems/copy-list-with-random-pointer/
+
+Approach:-
+Add a new copy pointer to between every node in list.
+such that list 7->13->2 becomes 7->copy(7)->13->copy(13)...
+due to this we can easily find the random pointer for our new copied list because
+node->random->next will have random pointer copy of our new list.
+and then remove the next pointer of new list to previous list and give it to next list next.
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (!head)
+            return head;
+        Node *temp = head;
+        while (temp) {
+            Node *nxt = temp->next, *node = new Node(temp->val);
+            temp->next = node;
+            node->next = nxt;
+            temp = nxt;
+        }
+        temp = head;
+        while (temp) {
+            if (temp->random)
+                temp->next->random = temp->random->next;
+            temp = temp->next->next;
+        }
+        Node *copy = head->next, *tc = copy;
+        temp = head;
+        temp->next = temp->next->next;
+        temp = temp->next;
+        while (temp) {
+            tc->next = temp->next;
+            temp->next = temp->next->next;
+            temp = temp->next;
+            tc = tc->next;
+        }
+        return copy;
+    }
+};
