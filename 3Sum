@@ -1,0 +1,36 @@
+https://leetcode.com/problems/3sum/
+
+Approach:-
+sort the array such that two pointer approach can be applied.
+apply for loop and fix the one of triplet
+now apply two pointer approach to find the other two of triplet.
+if found then check for same element and remove them for innner while loop and also do for outer for loop.
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> ans;
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < n; i++) {
+            int val = nums[i], tar = -1 * val;
+            int low = i+1, high = n-1;
+            while (high > low) {
+                int sum = nums[high] + nums[low];
+                if (sum == tar) {
+                    vector<int> v = {val, nums[low], nums[high]};
+                    ans.push_back(v);
+                    // remove same element
+                    while (low < high && nums[low] == v[1]) low++;
+                    while (low < high && nums[high] == v[2]) high--;
+                }
+                else if (sum > tar)
+                    high--;
+                else
+                    low++;
+            }
+            while (i+1 < n && nums[i] == nums[i+1]) i++; 
+        }
+        return ans;
+    }
+};
