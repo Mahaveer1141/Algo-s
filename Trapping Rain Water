@@ -1,0 +1,37 @@
+https://leetcode.com/problems/trapping-rain-water/
+
+Approach:-
+use two pointer approach, also high >= low because if don't then we will miss a height to add.
+water trapper can be found for any any heigh by checking it's max left heigh and max right height.
+lmax >= rmax then we have to check for right side because it's max value is lower so water trapped depend on right side.
+  if current height value is greater than right max then there can be no water trapped
+  else there is water trapped and calculate it and add to answer
+if rmax > lmax then same condition are applied but on left side.
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        int low = 0, high = n-1;
+        int lmax = 0, rmax = 0;
+        int ans = 0;
+        while (high >= low) {
+            int lval = height[low], rval = height[high];
+            if (lmax >= rmax) {
+                if (rval >= rmax)
+                    rmax = max(rmax, rval);
+                else
+                    ans += min(rmax, lmax) - rval;
+                high--;
+            }
+            else {
+                if (lval >= lmax)
+                    lmax = max(lmax, lval);
+                else
+                    ans += min(rmax, lmax) - lval;
+                low++;
+            }
+        }
+        return ans;
+    }
+};
