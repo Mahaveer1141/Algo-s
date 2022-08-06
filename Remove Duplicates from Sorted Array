@@ -1,0 +1,24 @@
+https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+
+Approach:-
+take a variable k which will have non duplicate array index and 
+check for consecutive duplicate element and than assign that non duplicate to value at k and increment k.
+check for condition when no other element than duplicate found means this is the end and return k.
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int n = nums.size();
+        int k = 1;
+        for (int i = 1; i < n; i++) {
+            while (i < n && nums[i] == nums[i-1]) {
+                i++;
+            }
+            if (i == n)
+                break;
+            nums[k] = nums[i];
+            k++;
+        }
+        return k;
+    }
+};
