@@ -1,0 +1,32 @@
+https://practice.geeksforgeeks.org/problems/job-sequencing-problem-1587115620/1#
+
+Approach:-
+sort the Job accroding to profit.
+take the highest profit one at last of it's deadline. if there is already is other schedlued at that deadline,
+find the max deadline where no job is schedule and put it there.
+
+class Solution 
+{
+public:
+    static bool compare(Job a, Job b) {
+        return a.profit > b.profit;
+    }
+    vector<int> JobScheduling(Job arr[], int n) 
+    {
+        sort(arr, arr+n, compare);
+        vector<int> v(101, 0);
+        int ans = 0, j = 0;
+        for (int i = 0; i < n; i++) {
+            int d = arr[i].dead, p = arr[i].profit;
+            while (d > 0 && v[d]) {
+                d--;
+            }
+            if (d != 0) {
+                v[d] = 1;
+                ans += p;
+                j++;
+            }
+        }
+        return {j, ans};
+    }
+};
