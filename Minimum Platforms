@@ -1,0 +1,35 @@
+https://practice.geeksforgeeks.org/problems/minimum-platforms-1587115620/1#
+
+Approach:-
+just take all the arrival and departure of train in array sort them, #see the code# for explanation,
+give arrival value of 0 because on same arrival and departiure time platform a new platform would be required, so arrival should come first in array. 
+
+class Solution{
+    public:
+    //Function to find the minimum number of platforms required at the
+    //railway station such that no train waits.
+    int findPlatform(int arr[], int dep[], int n)
+    {
+        vector<pair<int, int>> v;
+        for (int i = 0; i < n; i++) {
+            v.push_back({arr[i], 0});
+            v.push_back({dep[i], 1});
+        }
+        sort(v.begin(), v.end());
+        int ans = 0, busy = 0;
+        for (int i = 0; i < 2*n; i++) {
+            if (v[i].second == 0) {
+                if (ans == busy) {
+                    ans++;
+                    busy++;
+                }
+                else if (ans > busy) {
+                    busy++;
+                }
+            }
+            else
+                busy--;
+        }
+        return ans;
+    }
+};
