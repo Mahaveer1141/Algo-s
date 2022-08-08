@@ -1,0 +1,39 @@
+https://leetcode.com/problems/palindrome-partitioning/
+
+Approach:-
+most same as subset.
+in for loop condition is not picking is handeled automatically because when not to pick at end, index is incremneted in for loop.
+we will only add p in answer if last index ended successfully in palindrome and in this it happens when it trigger a recursive call for
+idx == n and we check it up there.
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int n = s.size();
+        for (int i = 0; i < n; i++) {
+            if (s[i] != s[n-1-i])
+                return false;
+        }
+        return true;
+    }
+    
+    vector<vector<string>> ans;
+    void solve(string s, vector<string> p, int idx) {
+        // palindrome ended at last index that's why include it
+        if (idx == s.size())
+            ans.push_back(p);
+        for (int i = idx; i < s.size(); i++) {
+            string sub = s.substr(idx, i-idx+1);
+            if (isPalindrome(sub)) {
+                p.push_back(sub);
+                solve(s, p, i+1);
+                p.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<string>> partition(string s) {
+        solve(s, vector<string>(), 0);
+        return ans;
+    }
+};
