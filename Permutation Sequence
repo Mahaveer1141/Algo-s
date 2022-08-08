@@ -1,0 +1,37 @@
+https://leetcode.com/problems/permutation-sequence/
+
+Approach:-
+it can be solved by taking all the permutation sort them and pick the kth one. second approach is
+using maths we can solve this
+for n = 4 and k = 9
+there will be 24 permutation in which 6 of them will start with 1, 2, 3, 4 each and
+we can use that to solve this for k 1-6 our answer will start with 1 here k = 9 so answer will start with 2
+(because of 0 indexing we will decrease k by one so 0-5 for 1 6-11 for 2 and so on)
+after getting that index we will add that character to answer and remove that character from num string
+k value will be reduced to k % val and n will be reduced by one so we have to recalucalte val here
+so now n is 3 so there are 6 permuation again 2 for each, and we will will same appraoch for them
+untill ans size is equal to intial n.
+
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        int sz = n;
+        string num = "", ans = "";
+        int fact = 1;
+        for (int i = 1; i <= n; i++) {
+            num += to_string(i);
+            fact *= i;
+        }
+        int val = fact / n;
+        k--;
+        while (ans.size() != sz) {
+            int idx = k / val;
+            ans += num[idx];
+            num.erase(num.begin()+idx, num.begin()+idx+1);
+            k = k % val;
+            n--;
+            if (n != 0) val /= n;
+        }
+        return ans;
+    }
+};
