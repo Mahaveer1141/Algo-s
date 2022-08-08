@@ -1,0 +1,30 @@
+https://leetcode.com/problems/subsets-ii/
+
+Approach:-
+sort the array beacuse we want all the duplicate align adjacently.
+in this we add every size subset to ans (as we can see in first line of function)
+so after every element is pushed in s vector it is calling solve func which will result in adding of that length subset to ans.
+we will check nums[i] == nums[i-1] to remove duplicates to be added and 
+i != idx is needed because this means current i is new element (means it is new call of that function not continuation of for loop) and we want to 
+add it in out subset.
+
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void solve(vector<int> nums, vector<int> s, int idx) {
+        ans.push_back(s);
+        for (int i = idx; i < nums.size(); i++) {
+            if (i != idx && nums[i] == nums[i-1])
+                continue;
+            s.push_back(nums[i]);
+            solve(nums, s, i+1);
+            s.pop_back();
+        }
+    }
+    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        solve(nums, vector<int>(), 0);
+        return ans;
+    }
+};
