@@ -1,0 +1,26 @@
+https://leetcode.com/problems/permutations/
+
+Approach:-
+in this approach we will use swap as in permuations of array there value don't change but just get swapped, so we will do every possible swap and
+it will result in all permutation of an array.
+once it will reach end means idx == n then we will add it to our ans as this index idx already swaped with every possible index.
+
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void solve(vector<int> nums, int idx) {
+        int n = nums.size();
+        if (idx == n)
+            ans.push_back(nums);
+        for (int i = idx; i < n; i++) {
+            swap(nums[idx], nums[i]);
+            solve(nums, idx+1);
+            swap(nums[idx], nums[i]);
+        }
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        solve(nums, 0);
+        return ans;
+    }
+};
