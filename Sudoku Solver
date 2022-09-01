@@ -1,0 +1,53 @@
+https://leetcode.com/problems/sudoku-solver/
+
+Approach:-
+we will travese with two for loops over all the board.
+if some cell is empty then we will check if any integer satisfy the condition of sudoku.
+if yes then we will give empty cell that value and make a recusion call with new board and check if that value can lead up to succesfull sudoku
+    if not the make cell empty
+else continue
+if no value can lead to succesfull sudoku means some previous value was wrong and we will return false and go backwards to change value.
+
+class Solution {
+public:
+    bool isValid(vector < vector < char >> & board, int row, int col, char c) {
+      for (int i = 0; i < 9; i++) {
+        if (board[i][col] == c)
+          return false;
+
+        if (board[row][i] == c)
+          return false;
+
+        if (board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == c)
+          return false;
+      }
+      return true;
+    }
+    
+    bool solve(vector<vector<char>> &board) {
+        for (int i=0; i<9; i++) {
+            for (int j=0; j<9; j++) {
+                if(board[i][j] == '.') {
+                    for (int val=1; val<=9; val++) {
+                        char c='0'+val;
+                        if(isValid(board, i, j, c)) {
+                            board[i][j]=c;
+                            if(solve(board))
+                                return true;
+                            else
+                                board[i][j]='.';
+                            
+                        }
+                    }
+                    // if no value from 1 to 9 satisfy the empty then we have to return false and go back to previous value to change it.
+                    return false;
+                }
+            }
+        }
+        return 1;
+    }
+
+    void solveSudoku(vector<vector<char>>& board) {
+        solve(board);
+    }
+};
