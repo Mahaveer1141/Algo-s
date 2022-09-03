@@ -1,0 +1,36 @@
+https://leetcode.com/problems/word-break-ii/
+
+Approach:-
+we will have two condition in backtracking first if take the current index and move forward to next index.
+second we will check if cur string in wordDict and add to fin string.
+for last string (means string which ends of end of string s) we will check if that is valid if yes then we will add to fin and then add fin to ans.
+
+class Solution {
+public:
+    vector<string> ans;
+    
+    bool check(string s, vector<string> wordDict) {
+        for (string a : wordDict) {
+            if (a == s)
+                return true;
+        }
+        return false;
+    }
+    
+    void solve(string s, vector<string> wordDict, string cur, string fin, int idx) {
+        if (idx == s.size()) {
+            if (check(cur, wordDict))
+                ans.push_back(fin+cur);
+            return;
+        }
+        solve(s, wordDict, cur+s[idx], fin, idx+1);
+        if (check(cur, wordDict)) {
+            solve(s, wordDict, "", fin+cur+" ", idx);
+        }
+    }
+    
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        solve(s, wordDict, "", "", 0);
+        return ans;
+    }
+};
