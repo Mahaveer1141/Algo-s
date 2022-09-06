@@ -1,0 +1,21 @@
+https://www.interviewbit.com/problems/matrix-median/
+
+Approach:-
+use binary search over a range and for every mid element found element less or equal to it. we have to find the median so element count of less or
+equal to it is closest to (n*m)/2 is answer
+
+int Solution::findMedian(vector<vector<int> > &A) {
+    int n = A.size(), m = A[0].size();
+    int low = 0, high = 1e9+1;
+    while (high >= low) {
+        int mid = (low + high) / 2;
+        int cnt = 0;
+        // finding element equal or less than mid in arary.
+        for (int i = 0; i < n; i++) {
+            cnt += upper_bound(A[i].begin(), A[i].end(), mid) - A[i].begin();
+        }
+        if (cnt <= (n*m)/2) low=mid+1;
+        else high=mid-1;
+    }
+    return low;
+}
