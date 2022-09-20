@@ -1,0 +1,50 @@
+https://leetcode.com/problems/single-element-in-a-sorted-array/
+
+Approach:-
+the final answer will be always on even index becuase every consecutive element will be two expect the answer.
+if current mid is even means there are two condition
+if (nums[mid] == nums[mid+1]) {
+    st = mid+1;
+}
+else {
+    end = mid-1;
+}
+and for every odd condition there are two conditions
+if (nums[mid] == nums[mid-1]) {
+    st=mid+1;
+}
+else {
+    end=mid-1;
+}
+and we will return st the final answer.
+
+                
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int n=nums.size();
+        int st=0, end=n-1;
+        if(n==1)
+            return nums[0];
+        while (end>=st) {
+            int mid=(st+end)/2;
+            if (mid%2==0) {
+                if (nums[mid] == nums[mid+1]) {
+                    st = mid+1;
+                }
+                else {
+                    end = mid-1;
+                }
+            }
+            else {
+                if (nums[mid] == nums[mid-1]) {
+                    st=mid+1;
+                }
+                else {
+                    end=mid-1;
+                }
+            }
+        }
+        return nums[st];
+    }
+};
