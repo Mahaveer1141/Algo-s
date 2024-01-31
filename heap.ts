@@ -1,10 +1,17 @@
 class Heap {
-  isMaxHeap: boolean;
+  private isMaxHeap: boolean;
   heap: number[];
   constructor(array: number[] = [], isMaxHeap: boolean = false) {
     this.isMaxHeap = isMaxHeap;
     this.heap = [];
     array.forEach((num) => this.push(num));
+  }
+
+  private swap(index1: number, index2: number) {
+    [this.heap[index1], this.heap[index2]] = [
+      this.heap[index2],
+      this.heap[index1],
+    ];
   }
 
   top(): number {
@@ -28,10 +35,7 @@ class Heap {
         ? this.heap[parent] < this.heap[index]
         : this.heap[parent] > this.heap[index])
     ) {
-      [this.heap[parent], this.heap[index]] = [
-        this.heap[index],
-        this.heap[parent],
-      ];
+      this.swap(parent, index);
       index = parent;
       parent = Math.floor((parent + 1) / 2) - 1;
     }
@@ -55,10 +59,7 @@ class Heap {
             ? this.heap[left] > this.heap[index]
             : this.heap[left] < this.heap[index]
         )
-          [this.heap[index], this.heap[left]] = [
-            this.heap[left],
-            this.heap[index],
-          ];
+          this.swap(left, index);
         break;
       }
       if (
@@ -66,16 +67,10 @@ class Heap {
           ? this.heap[left] > this.heap[right]
           : this.heap[left] < this.heap[right]
       ) {
-        [this.heap[index], this.heap[left]] = [
-          this.heap[left],
-          this.heap[index],
-        ];
+        this.swap(left, index);
         index = left;
       } else {
-        [this.heap[index], this.heap[right]] = [
-          this.heap[right],
-          this.heap[index],
-        ];
+        this.swap(right, index);
         index = right;
       }
       left = index * 2 + 1;
