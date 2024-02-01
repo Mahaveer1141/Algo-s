@@ -1,17 +1,23 @@
 class Heap {
   private isMaxHeap: boolean;
-  heap: number[];
+  private heap: number[];
   constructor(array: number[] = [], isMaxHeap: boolean = false) {
     this.isMaxHeap = isMaxHeap;
     this.heap = [];
     array.forEach((num) => this.push(num));
   }
 
-  private swap(index1: number, index2: number) {
+  private swapIndices(index1: number, index2: number) {
     [this.heap[index1], this.heap[index2]] = [
       this.heap[index2],
       this.heap[index1],
     ];
+  }
+
+  private checkHeapCondition(index1: number, index2: number): boolean {
+    return this.isMaxHeap
+      ? this.heap[index1] < this.heap[index2]
+      : this.heap[index1] > this.heap[index2];
   }
 
   top(): number {
@@ -29,13 +35,8 @@ class Heap {
     if (index === 0) return;
 
     let parent = Math.floor((index + 1) / 2) - 1;
-    while (
-      parent >= 0 &&
-      (this.isMaxHeap
-        ? this.heap[parent] < this.heap[index]
-        : this.heap[parent] > this.heap[index])
-    ) {
-      this.swap(parent, index);
+    while (parent >= 0 && this.checkHeapCondition(parent, index)) {
+      this.swapIndices(parent, index);
       index = parent;
       parent = Math.floor((parent + 1) / 2) - 1;
     }
@@ -54,23 +55,14 @@ class Heap {
 
     while (left < n - 1 || right < n - 1) {
       if (right >= n - 1) {
-        if (
-          this.isMaxHeap
-            ? this.heap[left] > this.heap[index]
-            : this.heap[left] < this.heap[index]
-        )
-          this.swap(left, index);
+        if (this.checkHeapCondition(index, left)) this.swapIndices(left, index);
         break;
       }
-      if (
-        this.isMaxHeap
-          ? this.heap[left] > this.heap[right]
-          : this.heap[left] < this.heap[right]
-      ) {
-        this.swap(left, index);
+      if (this.checkHeapCondition(right, left)) {
+        this.swapIndices(left, index);
         index = left;
       } else {
-        this.swap(right, index);
+        this.swapIndices(right, index);
         index = right;
       }
       left = index * 2 + 1;
